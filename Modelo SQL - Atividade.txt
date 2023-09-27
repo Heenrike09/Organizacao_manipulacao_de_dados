@@ -1,0 +1,475 @@
+1 - 
+
+CREATE TABLE Tarefa 
+( 
+ Num_chave INT PRIMARY KEY,  
+ nome INT,  
+ data_limite INT,  
+ percentual_concluído INT,  
+ detalhamento_tarefa INT,  
+); 
+
+CREATE TABLE execução 
+( 
+ percentual INT PRIMARY KEY,  
+ descrição INT,  
+ data_execução INT,  
+); 
+
+CREATE TABLE Rel 
+( 
+ Num_chave INT PRIMARY KEY,  
+ percentual INT PRIMARY KEY,  
+); 
+
+ALTER TABLE Rel ADD FOREIGN KEY(Num_chave) REFERENCES Tarefa (Num_chave)
+ALTER TABLE Rel ADD FOREIGN KEY(percentual) REFERENCES execução (percentual)
+---------------------------------------------------------------------------------
+2 - 
+
+CREATE TABLE Ligação 
+( 
+ Numero INT,  
+ Dados_ligação INT PRIMARY KEY,  
+ Data INT,  
+ Hora INT,  
+ Min_gastos INT,  
+ Num_pulsos INT,  
+ Numero_tel INT,  
+ Valor_pag INT,  
+); 
+
+CREATE TABLE Agenda_tel 
+( 
+ Num_tel INT PRIMARY KEY,  
+ Nome_contato INT,  
+); 
+
+CREATE TABLE Rel 
+( 
+ Num_tel INT PRIMARY KEY,  
+ Dados_ligação INT,  
+); 
+
+ALTER TABLE Rel ADD FOREIGN KEY(Num_tel) REFERENCES Agenda_tel (Num_tel)
+ALTER TABLE Rel ADD FOREIGN KEY(Dados_ligação) REFERENCES Ligação (Dados_ligação)
+----------------------------------------------------------------------------------------
+3 -
+
+CREATE TABLE Disciplinas 
+( 
+ ID INT PRIMARY KEY,  
+ Nome_disc INT,  
+); 
+
+CREATE TABLE Materias 
+( 
+ Disco INT,  
+ Nom_materia INT,  
+ ID INT PRIMARY KEY,  
+ idDisciplinas INT,  
+); 
+
+CREATE TABLE Questoes 
+( 
+ ID INT PRIMARY KEY,  
+ ID_matricula INT PRIMARY KEY,  
+ Texto_ques INT,  
+ Bimestre INT,  
+); 
+
+CREATE TABLE Gabarito 
+( 
+ ID INT PRIMARY KEY,  
+ ID_ques INT PRIMARY KEY,  
+ Resposta INT,  
+); 
+
+CREATE TABLE Teste 
+( 
+ ID_disc INT PRIMARY KEY,  
+ ID INT PRIMARY KEY,  
+ Num_quest INT,  
+ idDisciplinas INT,  
+); 
+
+CREATE TABLE Rel 
+( 
+ ID INT PRIMARY KEY,  
+ ID INT PRIMARY KEY,  
+); 
+
+CREATE TABLE Rel1 
+( 
+ ID INT PRIMARY KEY,  
+ ID INT PRIMARY KEY,  
+); 
+
+CREATE TABLE Rel11 
+( 
+ ID_disc INT PRIMARY KEY,  
+ ID INT PRIMARY KEY,  
+); 
+
+ALTER TABLE Materias ADD FOREIGN KEY(idDisciplinas) REFERENCES Disciplinas (idDisciplinas)
+ALTER TABLE Teste ADD FOREIGN KEY(idDisciplinas) REFERENCES Disciplinas (idDisciplinas)
+ALTER TABLE Rel ADD FOREIGN KEY(ID) REFERENCES Questoes (ID)
+ALTER TABLE Rel ADD FOREIGN KEY(ID) REFERENCES Materias (ID)
+ALTER TABLE Rel1 ADD FOREIGN KEY(ID) REFERENCES Gabarito (ID)
+ALTER TABLE Rel1 ADD FOREIGN KEY(ID) REFERENCES Questoes (ID)
+ALTER TABLE Rel11 ADD FOREIGN KEY(ID_disc) REFERENCES Teste (ID_disc)
+ALTER TABLE Rel11 ADD FOREIGN KEY(ID) REFERENCES Questoes (ID)
+-------------------------------------------------------------------------------------------------
+4 - 
+
+CREATE TABLE Alugueis 
+( 
+ Clientes_ID INT PRIMARY KEY,  
+ ID INT PRIMARY KEY,  
+ Tema_ID INT PRIMARY KEY,  
+ Hora_fim INT,  
+ Hora_in INT,  
+ Dados_fest INT,  
+ idClientes INT,  
+ idTema INT,  
+); 
+
+CREATE TABLE Clientes 
+( 
+ ID INT PRIMARY KEY,  
+ Nome INT,  
+ telefone INT,  
+); 
+
+CREATE TABLE Tema 
+( 
+ ID INT PRIMARY KEY,  
+ ID_temas INT PRIMARY KEY,  
+ Nome INT,  
+ idTemas INT,  
+); 
+
+CREATE TABLE Temas 
+( 
+ ID INT PRIMARY KEY,  
+ Nome_tema INT,  
+ Valor_alu INT,  
+ Cor_toalha_mesa INT,  
+); 
+
+ALTER TABLE Alugueis ADD FOREIGN KEY(idClientes) REFERENCES Clientes (idClientes)
+ALTER TABLE Alugueis ADD FOREIGN KEY(idTema) REFERENCES Tema (idTema)
+ALTER TABLE Tema ADD FOREIGN KEY(idTemas) REFERENCES Temas (idTemas)
+-----------------------------------------------------------------------------------
+5 -
+
+CREATE TABLE Dono 
+( 
+ ID INT PRIMARY KEY,  
+ curso INT,  
+ data_in INT,  
+ data_fim INT,  
+ hora_in INT,  
+ hora_fim INT,  
+ nome_prof INT,  
+ telefone INT,  
+ valor_hora INT,  
+); 
+
+CREATE TABLE Curso 
+( 
+ ID INT PRIMARY KEY,  
+ carga_hora INT,  
+ conteudo INT,  
+ valor_curso INT,  
+ idDono INT,  
+); 
+
+CREATE TABLE Matricula 
+( 
+ ID INT PRIMARY KEY,  
+ data_mat INT,  
+ valor INT,  
+ aluno INT,  
+ turma INT,  
+ idCurso INT,  
+ idAluno INT,  
+); 
+
+CREATE TABLE Aluno 
+( 
+ ID INT PRIMARY KEY,  
+ nome INT,  
+ identidadre INT,  
+ CPF INT,  
+ data_nasc INT,  
+ endereco INT,  
+ telefone INT,  
+); 
+
+CREATE TABLE Aluno_Curso 
+( 
+ ID INT PRIMARY KEY,  
+ ID INT PRIMARY KEY,  
+); 
+
+ALTER TABLE Curso ADD FOREIGN KEY(idDono) REFERENCES Dono (idDono)
+ALTER TABLE Matricula ADD FOREIGN KEY(idCurso) REFERENCES Curso (idCurso)
+ALTER TABLE Matricula ADD FOREIGN KEY(idAluno) REFERENCES Aluno (idAluno)
+ALTER TABLE Aluno_Curso ADD FOREIGN KEY(ID) REFERENCES Aluno (ID)
+ALTER TABLE Aluno_Curso ADD FOREIGN KEY(ID) REFERENCES Curso (ID)
+-----------------------------------------------------------------------------
+6 -
+
+CREATE TABLE Usuario 
+( 
+ ID INT PRIMARY KEY,  
+ Nome INT,  
+ Email INT,  
+ Senha INT,  
+ Sessoes INT,  
+ Data_in INT,  
+ idResumo_oferta INT,  
+); 
+
+CREATE TABLE Anuncio 
+( 
+ ID INT PRIMARY KEY,  
+ Tipo_anuncio INT,  
+ Texto INT,  
+ Imagem INT,  
+ Data INT,  
+ Data_fim INT,  
+ idUsuario INT,  
+); 
+
+CREATE TABLE Resumo_oferta 
+( 
+ ID INT PRIMARY KEY,  
+ Data_resultado INT,  
+ Tipo_anuncio INT,  
+ Resultado_anuncio INT,  
+); 
+
+ALTER TABLE Usuario ADD FOREIGN KEY(idResumo_oferta) REFERENCES Resumo_oferta (idResumo_oferta)
+ALTER TABLE Anuncio ADD FOREIGN KEY(idUsuario) REFERENCES Usuario (idUsuario)
+-------------------------------------------------------------------------------------------------
+7 -
+
+CREATE TABLE Jogador 
+( 
+ ID INT PRIMARY KEY,  
+ Nome INT,  
+ pontuacao INT,  
+); 
+
+CREATE TABLE Rodada 
+( 
+ ID INT PRIMARY KEY,  
+ Pontuacao INT,  
+ Acertou INT,  
+ idJogador INT,  
+ idLetra_Errada INT,  
+); 
+
+CREATE TABLE Letra_Errada 
+( 
+ ID INT PRIMARY KEY,  
+ Letra INT,  
+); 
+
+CREATE TABLE Boneco 
+( 
+ ID INT PRIMARY KEY,  
+ Parte INT,  
+ idLetra_Errada INT,  
+); 
+
+CREATE TABLE Tema 
+( 
+ ID INT PRIMARY KEY,  
+ Nome INT,  
+ idRodada INT,  
+); 
+
+CREATE TABLE Palavra 
+( 
+ ID INT PRIMARY KEY,  
+ Palavra INT,  
+ idTema INT,  
+); 
+
+ALTER TABLE Rodada ADD FOREIGN KEY(idJogador) REFERENCES Jogador (idJogador)
+ALTER TABLE Rodada ADD FOREIGN KEY(idLetra_Errada) REFERENCES Letra_Errada (idLetra_Errada)
+ALTER TABLE Boneco ADD FOREIGN KEY(idLetra_Errada) REFERENCES Letra_Errada (idLetra_Errada)
+ALTER TABLE Tema ADD FOREIGN KEY(idRodada) REFERENCES Rodada (idRodada)
+ALTER TABLE Palavra ADD FOREIGN KEY(idTema) REFERENCES Tema (idTema)
+-------------------------------------------------------------------------------------------
+8 -
+
+CREATE TABLE Projeto 
+( 
+ Nome INT,  
+ ID INT PRIMARY KEY,  
+); 
+
+CREATE TABLE Casos 
+( 
+ ID INT PRIMARY KEY,  
+ Nome INT,  
+ Texto INT,  
+ Status INT,  
+ idProjeto INT,  
+); 
+
+ALTER TABLE Casos ADD FOREIGN KEY(idProjeto) REFERENCES Projeto (idProjeto)
+---------------------------------------------------------------------------------
+9 -
+
+CREATE TABLE Revista 
+( 
+ ID INT PRIMARY KEY,  
+ Tipo_colecao INT,  
+ Num_edicao INT,  
+ Ano INT,  
+ idCaixa INT,  
+); 
+
+CREATE TABLE Caixa 
+( 
+ ID INT PRIMARY KEY,  
+ Cor INT,  
+ itequita INT,  
+ Numero INT,  
+); 
+
+CREATE TABLE Emprestimo 
+( 
+ ID INT PRIMARY KEY,  
+ Data_emprestimo INT,  
+ Data_devolucao INT,  
+ idRevista INT,  
+ idAmiginhos INT,  
+); 
+
+CREATE TABLE Amiginhos 
+( 
+ ID INT PRIMARY KEY,  
+ Nome INT,  
+ Nome_mae INT,  
+ telefone INT,  
+ Lugar_do_amg INT,  
+); 
+
+ALTER TABLE Revista ADD FOREIGN KEY(idCaixa) REFERENCES Caixa (idCaixa)
+ALTER TABLE Emprestimo ADD FOREIGN KEY(idRevista) REFERENCES Revista (idRevista)
+ALTER TABLE Emprestimo ADD FOREIGN KEY(idAmiginhos) REFERENCES Amiginhos (idAmiginhos)
+ ----------------------------------------------------------------------------------------
+10 -
+
+CREATE TABLE Apartamento 
+( 
+ ID INT PRIMARY KEY,  
+ Numero INT,  
+ Qnt_quartos INT,  
+ Ocupacao INT,  
+ Proprietario INT,  
+ Tel_prop INT,  
+ idMulta_atraso INT,  
+); 
+
+CREATE TABLE Despesas_apt 
+( 
+ Valor_do_ap INT,  
+ ID INT PRIMARY KEY,  
+ Data_pg INT,  
+ idApartamento INT,  
+ idDespesas_comuns INT,  
+); 
+
+CREATE TABLE Despesas_comuns 
+( 
+ ID INT PRIMARY KEY,  
+ Referencia INT,  
+ Valor INT,  
+ Tipo_despesa INT,  
+); 
+
+CREATE TABLE Multa_atraso 
+( 
+ ID INT PRIMARY KEY,  
+ Multa INT,  
+ Data da cobranca INT,  
+); 
+
+ALTER TABLE Apartamento ADD FOREIGN KEY(idMulta_atraso) REFERENCES Multa_atraso (idMulta_atraso)
+ALTER TABLE Despesas_apt ADD FOREIGN KEY(idApartamento) REFERENCES Apartamento (idApartamento)
+ALTER TABLE Despesas_apt ADD FOREIGN KEY(idDespesas_comuns) REFERENCES Despesas_comuns (idDespesas_comuns)
+-----------------------------------------------------------------------------------------------------------
+11 - 
+
+CREATE TABLE Cartao_aposta 
+( 
+ Chave INT PRIMARY KEY,  
+ Data_aposta INT,  
+ Tipo_aposta INT,  
+ Num_aposta INT,  
+ Valor_aposta INT,  
+); 
+
+CREATE TABLE Concurso 
+( 
+ ID INT PRIMARY KEY,  
+ Tipo_jogo INT,  
+ Num_sorteio INT,  
+ idCartao_aposta INT,  
+); 
+
+CREATE TABLE Resultados 
+( 
+ ID INT PRIMARY KEY,  
+ Num_acertos INT,  
+ Valor_premio INT,  
+ idCartao_aposta INT,  
+ idConcurso INT,  
+); 
+
+ALTER TABLE Concurso ADD FOREIGN KEY(idCartao_aposta) REFERENCES Cartao_aposta (idCartao_aposta)
+ALTER TABLE Resultados ADD FOREIGN KEY(idCartao_aposta) REFERENCES Cartao_aposta (idCartao_aposta)
+ALTER TABLE Resultados ADD FOREIGN KEY(idConcurso) REFERENCES Concurso (idConcurso)
+--------------------------------------------------------------------------------------------------
+12 - 
+
+CREATE TABLE Cartao_aposta 
+( 
+ Chave INT PRIMARY KEY,  
+ Data_aposta INT,  
+ Tipo_aposta INT,  
+ Num_aposta INT,  
+ Valor_aposta INT,  
+); 
+
+CREATE TABLE Concurso 
+( 
+ ID INT PRIMARY KEY,  
+ Tipo_jogo INT,  
+ Num_sorteio INT,  
+ idCartao_aposta INT,  
+); 
+
+CREATE TABLE Resultados 
+( 
+ ID INT PRIMARY KEY,  
+ Num_acertos INT,  
+ Valor_premio INT,  
+ idCartao_aposta INT,  
+ idConcurso INT,  
+); 
+
+ALTER TABLE Concurso ADD FOREIGN KEY(idCartao_aposta) REFERENCES Cartao_aposta (idCartao_aposta)
+ALTER TABLE Resultados ADD FOREIGN KEY(idCartao_aposta) REFERENCES Cartao_aposta (idCartao_aposta)
+ALTER TABLE Resultados ADD FOREIGN KEY(idConcurso) REFERENCES Concurso (idConcurso)
+
+--------------------------------------------------------------------------------------------------
+
+(  FIM  )
